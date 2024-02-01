@@ -1,11 +1,11 @@
 import { getConfig } from "../config";
 import { Game2048DataModel } from "../lib/Game2048DataModel";
-import { ModelView } from "../lib/modelView";
+
 import { useDebounce } from "../lib/utils";
 
 const { consoleMode } = getConfig()
 
-export class Game2048 extends HTMLElement implements ModelView {
+export class Game2048 extends HTMLElement {
 
   model: Game2048DataModel
   animationContainer: HTMLDivElement
