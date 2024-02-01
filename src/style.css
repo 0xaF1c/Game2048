@@ -1,0 +1,302 @@
+:root {
+  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+
+  /* color-scheme: light dark; */
+  /* color: rgba(255, 255, 255, 0.87);
+  */
+  background-color: #faf8ef;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
+  --block-gap: 6px;
+  --map-size: 512px;
+  --font-color: #776e65;
+
+  --background-color: #bbada0;
+  --total-border-radius: 6px;
+  --block-background-color-0: rgba(238, 228, 218, 0.35);
+  --block-background-color-2: #eee4da;
+  --block-background-color-4: #ede0c8;
+  --block-background-color-8: #f2b179;
+  --block-background-color-16: #f59563;
+  --block-background-color-32: #f67c5f;
+  --block-background-color-64: #f65e3b;
+  --block-background-color-128: #edcf72;
+  --block-background-color-256: #edcc61;
+  --block-background-color-512: #edc850;
+  --block-background-color-1024: #edc53f;
+  --block-background-color-2048: #edc22e;
+  --block-background-color-4096: #edc22e;
+  --block-background-color-8192: #edc22e;
+  --block-background-color-16384: #edc22e;
+  --block-background-color-32768: #edc22e;
+  --block-background-color-65536: #edc22e;
+  --block-background-color-131072: #edc22e;
+  --block-background-color-262144: #edc22e;
+  --block-font-color-0: #776e65;
+  --block-font-color-2: #776e65;
+  --block-font-color-4: #776e65;
+  --block-font-color-8: #f9f6f2;
+  --block-font-color-16: #f9f6f2;
+  --block-font-color-32: #f9f6f2;
+  --block-font-color-64: #f9f6f2;
+  --block-font-color-128: #f9f6f2;
+  --block-font-color-256: #f9f6f2;
+  --block-font-color-512: #f9f6f2;
+  --block-font-color-1024: #f9f6f2;
+  --block-font-color-2048: #f9f6f2;
+  --block-font-color-4096: #f9f6f2;
+  --block-font-color-8192: #f9f6f2;
+  --block-font-color-16384: #f9f6f2;
+  --block-font-color-32768: #f9f6f2;
+  --block-font-color-65536: #f9f6f2;
+  --block-font-color-131072: #f9f6f2;
+  --block-font-color-262144: #f9f6f2;
+}
+/* temp */
+ul {
+  list-style: none;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  touch-action: none;
+}
+#app {
+  padding: 20px;
+}
+body,
+#app {
+  margin: 0 auto;
+  width: 100vw;
+}
+game2048-view {
+  /* border: solid 1px #fff; */
+  display: grid;
+  margin: 0 auto;
+  /* grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); */
+  grid-template-rows: repeat(auto-fit, minmax(50px, 1fr));
+  max-width: var(--map-size);
+  max-height: var(--map-size);
+  padding: var(--block-gap);
+  background-color: var(--background-color);
+  color: var(--font-color);
+
+  font-size: 18px;
+  cursor: default;
+  user-select: none;
+  touch-action: none;
+  flex-shrink: 0;
+  margin-top: 0;
+  padding: 10px;
+  border-radius: var(--total-border-radius);
+}
+game2048-view ul {
+  border: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+}
+.block-animation,
+.block,
+game2048-view ul li {
+  padding: 0;
+  margin: 0;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: clamp(2em, 1px, 10px);
+  text-align: justify;
+  font-weight: bold;
+  transition: transform 0.3s opacity 0.3s;
+  transform: scale(1);
+  margin: var(--block-gap);
+  border-radius: calc(var(--total-border-radius) / 2);
+}
+.block.merged {
+  animation: block-merge-animation .3s;
+}
+.block.block-generate {
+  /* transform: scale(1.2); */
+  animation: block-generate-animation 0.5s;
+}
+.block.hidden {
+  background-color: var(--block-background-color-0);
+  color: #0000;
+}
+.block-animation {
+  position: absolute;
+  z-index: 20;
+  margin: 0px;
+  opacity: 1;
+}
+.menu {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  margin: 10px auto;
+}
+.menu.wrap {
+  flex-wrap: wrap;
+  margin-top: 50px;
+}
+.menu.wrap .dataView,
+.menu.wrap .controller {
+  width: 100%;
+  justify-content: flex-start;
+  margin-bottom: 13px;
+}
+.bestView .tip,
+.scoreView .tip {
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  height: 15px;
+  opacity: 0.7;
+}
+.bestView,
+.scoreView {
+  display: inline-block;
+  background: #bbada0;
+  padding: 8px 25px 10px 25px;
+  font-size: 25px;
+  font-weight: bold;
+  border-radius: 3px;
+  color: white;
+  margin-top: 8px;
+  text-align: center;
+  margin-right: 13px;
+}
+.dataView {
+  justify-content: flex-start;
+}
+.controller {
+  justify-content: flex-end;
+}
+.dataView ,
+.controller {
+  display: flex;
+  align-items: flex-end;
+  width: 47%;
+}
+#goBack {
+  margin-left: 13px;
+}
+
+h1 {
+  margin: 30px auto;
+  font-size: 5rem;
+  color: #776e65;
+  text-align: right;
+}
+button {
+  all: unset;
+  font-size: 15px;
+  font-weight: bold;
+  background: #8f7a66;
+  border-radius: 3px;
+  padding: 0 20px;
+  text-decoration: none;
+  color: #f9f6f2;
+  height: 40px;
+  line-height: 42px;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  flex-shrink: 0;
+}
+@keyframes block-merge-animation {
+  0% {
+    transform: scale(1);
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes block-generate-animation {
+  0% {
+    transform: scale(0.1);
+  }
+  70% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.animationContainer {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.stateTip {
+  position: absolute;
+  transform: translate(-10px, -10px);
+  width: var(--map-size);
+  height: var(--map-size);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+  background-color: rgba(238, 228, 218, 0.73);
+  color: #776e65;
+  font-size: 4rem;
+  opacity: 0;
+  transition: opacity 1s;
+}
+.stateTip.active {
+  opacity: 1;
+}
+h1.rotate {
+  transform: rotate(-60deg) translate(-100px, 150px);
+  position: absolute;
+  font-size: 3.8rem;
+}
+.block-0 { color: var(--block-font-color-0); background-color: var(--block-background-color-0); }
+.block-2 { color: var(--block-font-color-2); background-color: var(--block-background-color-2); }
+.block-4 { color: var(--block-font-color-4); background-color: var(--block-background-color-4); }
+.block-8 { color: var(--block-font-color-8); background-color: var(--block-background-color-8); }
+.block-16 { color: var(--block-font-color-16); background-color: var(--block-background-color-16); }
+.block-32 { color: var(--block-font-color-32); background-color: var(--block-background-color-32); }
+.block-64 { color: var(--block-font-color-64); background-color: var(--block-background-color-64); }
+.block-128 {
+  color: var(--block-font-color-128);
+  background-color: var(--block-background-color-128);
+  box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.2380952381);
+}
+.block-256 {
+  color: var(--block-font-color-256);
+  background-color: var(--block-background-color-256);
+  box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.3174603175);
+}
+.block-512 {
+  color: var(--block-font-color-512);
+  background-color: var(--block-background-color-512);
+  box-shadow: 0 1px 10px rgba(243, 215, 116, 0.3968253968);
+}
+.block-1024 {
+  color: var(--block-font-color-1024);
+  background-color: var(--block-background-color-1024);
+  box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.4761904762);
+}
+.block-2048 {
+  color: var(--block-font-color-2048);
+  background-color: var(--block-background-color-2048);
+  box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.5555555556)
+}
+.block-4096 { color: var(--block-font-color-4096); background-color: var(--block-background-color-4096); }
+.block-8192 { color: var(--block-font-color-8192); background-color: var(--block-background-color-8192); }
+.block-16384 { color: var(--block-font-color-16384); background-color: var(--block-background-color-16384); }
+.block-32768 { color: var(--block-font-color-32768); background-color: var(--block-background-color-32768); }
+.block-65536 { color: var(--block-font-color-65536); background-color: var(--block-background-color-65536); }
+.block-131072 { color: var(--block-font-color-131072); background-color: var(--block-background-color-131072); }
+.block-262144 { color: var(--block-font-color-262144); background-color: var(--block-background-color-262144); }

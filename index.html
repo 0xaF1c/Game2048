@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/ico" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+    <title>2048</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>2048</h1>
+      <div class="menu">
+        <div class="dataView">
+          <div class="scoreView">
+            <div class="tip">SCORE</div>
+            <div id="score"></div>
+          </div>
+          <div class="bestView">
+            <div class="tip">BEST</div>
+            <div id="best"></div>
+          </div>
+        </div>
+        <div class="controller">
+          <button id="restart">new game</button>
+          <button id="goBack">CTRL + Z</button>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
