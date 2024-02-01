@@ -14,7 +14,7 @@ export default defineConfig({
         theme_color: '#ECC400',
         icons: [
           {
-            src: '/public/favicon.png',
+            src: '/favicon.png',
             sizes: '700x700',
             type: 'image/png'
           }
