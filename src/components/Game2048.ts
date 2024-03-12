@@ -11,7 +11,7 @@ export class Game2048 extends HTMLElement {
   animationContainer: HTMLDivElement
   stateTip: HTMLDivElement
   moveDelay: number = 200
-  mergeDelay: number = 300
+  mergeDelay: number = 100
   generateDelay: number = 500
   lost: boolean = false
   win: boolean = true
@@ -73,29 +73,20 @@ export class Game2048 extends HTMLElement {
   merge(to: any, mergeDelay: number) {
     const mergeTl = gsap.timeline()
     setTimeout(() => {
+      mergeTl.clear()
+    })
+    setTimeout(() => {
       const el = this.querySelector(`ul li.block[x="${to.x}"][y="${to.y}"]`)
       mergeTl
-        .to(`ul li.block[x="${to.x}"][y="${to.y}"]`, {
-          scale: 1,
-          duration: 0,
+        .to(el, {
+          scale: 1.2,
+          duration: (mergeDelay * 0.2) / 1000,
         })
         .to(el, {
-          scale: 1.1,
-          duration: (mergeDelay * 0.5) / 1000,
-        })
-        .to(`ul li.block[x="${to.x}"][y="${to.y}"]`, {
           scale: 1,
-          duration: (mergeDelay * 0.5) / 1000,
+          duration: (mergeDelay * 0.8) / 1000,
         })
     }, this.moveDelay);
-    // setTimeout(() => {
-    //   const li = this.querySelector(`ul li.block[x="${to.x}"][y="${to.y}"]`) as HTMLLIElement
-    //   li.classList.add('merged')
-    // })
-    // setTimeout(() => {
-    //   const li = this.querySelector(`ul li.block[x="${to.x}"][y="${to.y}"]`) as HTMLLIElement
-    //   li.classList.remove('merged')
-    // }, mergeDelay * 1.1)
   }
   createFrameFromDataModel(): void {
     this.lost = false
