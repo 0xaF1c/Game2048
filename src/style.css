@@ -129,6 +129,7 @@ game2048-view ul li {
 .block.hidden {
   background-color: var(--block-background-color-0);
   color: #0000;
+  box-shadow: none;
 }
 .block-animation {
   position: absolute;
@@ -216,7 +217,7 @@ button {
     transform: scale(1);
   }
   70% {
-    transform: scale(1.1);
+    transform: scale(1.15);
   }
   100% {
     transform: scale(1);
@@ -227,7 +228,7 @@ button {
     transform: scale(0.1);
   }
   70% {
-    transform: scale(1.05);
+    transform: scale(1.15);
   }
   100% {
     transform: scale(1);

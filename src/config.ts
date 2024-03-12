@@ -10,6 +10,7 @@ export const getConfig = () => ({
   win: 2048,
   consoleMode: false,
   storageKey: 'Game2048Root',
+  backStep: 20,
   color: {
 
   }

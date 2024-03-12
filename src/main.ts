@@ -78,7 +78,12 @@ const bestEl = document.querySelector('#best')!
 const scoreEl = document.querySelector('#score')!
 
 const zt = new ZingTouch.Region(document.body)
-zt.bind(document.body, 'swipe', (e: any) => {
+const swipe = new ZingTouch.Swipe({
+	numInputs: 1,
+	maxRestTime: 100,
+	escapeVelocity: 0.25,
+});
+zt.bind(document.body, swipe, (e: any) => {
   const deg = e.detail.data[0].currentDirection
   const diff = (target_deg: number, diffValue: number) => deg > target_deg - diffValue && deg < target_deg + diffValue
   if (diff(180, 55)) {

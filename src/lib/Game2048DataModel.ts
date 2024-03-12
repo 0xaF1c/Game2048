@@ -2,7 +2,7 @@ import { BackData, BlockData, Game2048DataModelEvents, MapData } from "../index"
 import { equalArrays, fillToTarget, selectColumn, setColumn, selectZeroCoordinates, isLost } from "./utils"
 import { getConfig } from "../config"
 
-const { doubleGenerate, size, maxBlock, maxBlockGenerate, minBlock, storageKey } = getConfig()
+const { doubleGenerate, size, maxBlock, maxBlockGenerate, minBlock, storageKey, backStep } = getConfig()
 
 export class Game2048DataModel {
 
@@ -75,6 +75,9 @@ export class Game2048DataModel {
       score: this.score,
       best: this.best,
     })
+    if (this.backData.length > backStep) {
+      this.backData.shift()
+    }
     if (!(this.lost || this.win)) {
       run()
       this.save()
@@ -104,7 +107,7 @@ export class Game2048DataModel {
         
         list[i + 1].value = 0
         list[i].value = 0
-      } else if (block.value !== 0 && block.value !== list[i - 1]?.value) {        
+      } else if (block.value !== 0 && block.value !== list[i - 1]?.value) {  
         this.emit('move', {
           from: JSON.parse(JSON.stringify(block)),
           to: block,
