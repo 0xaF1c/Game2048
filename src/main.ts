@@ -80,8 +80,8 @@ const scoreEl = document.querySelector('#score')!
 const zt = new ZingTouch.Region(document.body)
 const swipe = new ZingTouch.Swipe({
 	numInputs: 1,
-	maxRestTime: 100,
-	escapeVelocity: 0.25,
+	maxRestTime: 150,
+	escapeVelocity: 0.05,
 });
 zt.bind(document.body, swipe, (e: any) => {
   const deg = e.detail.data[0].currentDirection
@@ -136,10 +136,23 @@ const controller: any = {
   },
   'ctrl+r': () => {
     model.gameRestart()
-  }
+  },
+  ArrowUp: () => {
+    model.up()
+  },
+  ArrowLeft: () => {
+    model.left()
+  },
+  ArrowDown: () => {
+    model.down()
+  },
+  ArrowRight: () => {
+    model.right()
+  },
 }
 
 window.addEventListener('keydown', (event) => {
+  
   const fn = controller[`${event.ctrlKey?'ctrl+':''}${event.key}`]
   if (fn) {
     event.preventDefault()

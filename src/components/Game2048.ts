@@ -15,6 +15,7 @@ export class Game2048 extends HTMLElement {
   generateDelay: number = 500
   lost: boolean = false
   win: boolean = true
+  animationElMap: Map<string, HTMLLIElement> = new Map()
 
   constructor(model: Game2048DataModel) {
     super()
@@ -26,41 +27,40 @@ export class Game2048 extends HTMLElement {
   move(from: any, to: any, moveDelay: number) {
     const li = this.querySelector(`ul li.block[x="${from.x}"][y="${from.y}"]`) as HTMLLIElement
     const tl = gsap.timeline()
-    const animationEl = li.cloneNode() as HTMLLIElement
-    let playing = false
+    this.animationElMap.set(`ul li.block[x="${from.x}"][y="${from.y}"]`, li.cloneNode() as HTMLLIElement)
+    // const animationEl = li.cloneNode() as HTMLLIElement
     // const toBlock = this.querySelector(`ul li.block[x="${to.x}"][y="${to.y}"]`) as HTMLLIElement
-
+    this.animationContainer.innerHTML = ''
     setTimeout(() => {
-      if (!playing) {
-        const toBlock = this.querySelector(`ul li.block[x="${to.x}"][y="${to.y}"]`) as HTMLLIElement
-        const li = this.querySelector(`ul li.block[x="${from.x}"][y="${from.y}"]`) as HTMLLIElement
-        animationEl.className = 'block-animation block-' + li.value
-        animationEl.innerHTML = li.innerHTML
-        animationEl.style.left = li.getBoundingClientRect().left.toFixed(4) + 'px'
-        animationEl.style.top = li.getBoundingClientRect().top.toFixed(4) + 'px'
+      const animationEl = this.animationElMap.get(`ul li.block[x="${from.x}"][y="${from.y}"]`)!
+      const toBlock = this.querySelector(`ul li.block[x="${to.x}"][y="${to.y}"]`) as HTMLLIElement
+      const li = this.querySelector(`ul li.block[x="${from.x}"][y="${from.y}"]`) as HTMLLIElement
+      animationEl.className = 'block-animation block-' + li.value
+      animationEl.innerHTML = li.innerHTML
+      animationEl.style.left = li.getBoundingClientRect().left.toFixed(4) + 'px'
+      animationEl.style.top = li.getBoundingClientRect().top.toFixed(4) + 'px'
 
-        animationEl.style.width = getComputedStyle(li, null).width
-        animationEl.style.height = getComputedStyle(li, null).height
-        this.animationContainer.appendChild(animationEl)
-        toBlock.classList.add('hidden')
-        li.classList.add('hidden')
-        if (!(
-          animationEl.getBoundingClientRect().left === toBlock.getBoundingClientRect().left &&
-          animationEl.getBoundingClientRect().top === toBlock.getBoundingClientRect().top
-        )) {
-          const left: any = toBlock.getBoundingClientRect().left.toFixed(4)
-          const top: any = toBlock.getBoundingClientRect().top.toFixed(4)
+      animationEl.style.width = getComputedStyle(li, null).width
+      animationEl.style.height = getComputedStyle(li, null).height
+      this.animationContainer.appendChild(animationEl)
+      toBlock.classList.add('hidden')
+      li.classList.add('hidden')
+      if (!(
+        animationEl.getBoundingClientRect().left === toBlock.getBoundingClientRect().left &&
+        animationEl.getBoundingClientRect().top === toBlock.getBoundingClientRect().top
+      )) {
+        const left: any = toBlock.getBoundingClientRect().left.toFixed(4)
+        const top: any = toBlock.getBoundingClientRect().top.toFixed(4)
 
-          tl.add(gsap.to(animationEl, {
-            left,
-            top,
-            duration: (moveDelay * 1) / 1000,
-          }))
-          playing = true
-        }
+        tl.add(gsap.to(animationEl, {
+          left,
+          top,
+          duration: (moveDelay * 1) / 1000,
+        }))
       }
     })
     setTimeout(() => {
+      const animationEl = this.animationElMap.get(`ul li.block[x="${from.x}"][y="${from.y}"]`)!
       const toBlock = this.querySelector(`ul li.block[x="${to.x}"][y="${to.y}"]`) as HTMLLIElement
       const li = this.querySelector(`ul li.block[x="${from.x}"][y="${from.y}"]`) as HTMLLIElement
       toBlock.classList.remove('hidden')
@@ -68,18 +68,34 @@ export class Game2048 extends HTMLElement {
 
       animationEl.remove()
       this.update()
-      playing = false
     }, moveDelay)
   }
   merge(to: any, mergeDelay: number) {
+    const mergeTl = gsap.timeline()
     setTimeout(() => {
-      const li = this.querySelector(`ul li.block[x="${to.x}"][y="${to.y}"]`) as HTMLLIElement
-      li.classList.add('merged')
-    })
-    setTimeout(() => {
-      const li = this.querySelector(`ul li.block[x="${to.x}"][y="${to.y}"]`) as HTMLLIElement
-      li.classList.remove('merged')
-    }, mergeDelay * 1.1)
+      const el = this.querySelector(`ul li.block[x="${to.x}"][y="${to.y}"]`)
+      mergeTl
+        .to(`ul li.block[x="${to.x}"][y="${to.y}"]`, {
+          scale: 1,
+          duration: 0,
+        })
+        .to(el, {
+          scale: 1.1,
+          duration: (mergeDelay * 0.5) / 1000,
+        })
+        .to(`ul li.block[x="${to.x}"][y="${to.y}"]`, {
+          scale: 1,
+          duration: (mergeDelay * 0.5) / 1000,
+        })
+    }, this.moveDelay);
+    // setTimeout(() => {
+    //   const li = this.querySelector(`ul li.block[x="${to.x}"][y="${to.y}"]`) as HTMLLIElement
+    //   li.classList.add('merged')
+    // })
+    // setTimeout(() => {
+    //   const li = this.querySelector(`ul li.block[x="${to.x}"][y="${to.y}"]`) as HTMLLIElement
+    //   li.classList.remove('merged')
+    // }, mergeDelay * 1.1)
   }
   createFrameFromDataModel(): void {
     this.lost = false
